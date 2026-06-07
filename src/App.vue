@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	import { onBeforeUnmount, provide } from 'vue';
-  import { RouterLink, RouterView } from 'vue-router';
-	import { createContext as createEagleEye } from '../lib/vue-eagleeye';
+  	import { RouterLink, RouterView } from 'vue-router';
+	import { createEagleEye } from '@webkrafters/vue-eagleeye';
 	import {
 		contextInjectionKey,
 		defaultState,

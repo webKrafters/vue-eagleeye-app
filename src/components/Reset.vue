@@ -3,16 +3,17 @@
 
 	import { inject, onUpdated } from 'vue';
 
-	import { FULL_STATE_SELECTOR } from '@webkrafters/eagleeye';
-
-	import { VueEagleEye } from '../../lib/vue-eagleeye';
-
+	import {
+		FULL_STATE_SELECTOR,
+		EagleEyeContext
+	} from '@webkrafters/eagleeye';
+	
 	import {
 		contextInjectionKey,
 		type TestState
 	} from '../context';
 
-	const ctx = inject<VueEagleEye<TestState>>( contextInjectionKey )!;
+	const ctx = inject<EagleEyeContext<TestState>>( contextInjectionKey )!;
 
 	const { resetState } = ctx.stream();
 

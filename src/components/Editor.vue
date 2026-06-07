@@ -1,12 +1,12 @@
 <script setup lang="ts">
 	import { inject, onUpdated, reactive } from 'vue';
-	import { VueEagleEye } from '../../lib/vue-eagleeye';
+	import { EagleEyeContext } from '@webkrafters/vue-eagleeye';
 	import {
 		contextInjectionKey,
 		type TestState
 	} from '../context';
 
-	const ctx = inject<VueEagleEye<TestState>>( contextInjectionKey )!;
+	const ctx = inject<EagleEyeContext<TestState>>( contextInjectionKey )!;
 	const { setState } = ctx.stream();
 	const s = reactive({
 		color: '',

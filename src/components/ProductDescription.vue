@@ -1,27 +1,33 @@
 <script setup lang="ts">
+	import { computed, inject, onUpdated } from 'vue';
+	import { EagleEyeContext } from '@webkrafters/vue-eagleeye';
+	import {
+		contextInjectionKey,
+		type TestState
+	} from '../context';
+import CapitalizedDisplay from './CapitalizedDisplay.vue';
 
-import { inject, onUpdated } from 'vue';
+	const ctx = inject<EagleEyeContext<TestState>>( contextInjectionKey )!;
 
-import { VueEagleEye } from '../../lib/vue-eagleeye';
+	const { data } = ctx.stream({
+		c: 'color',
+		t: 'type'
+	});
 
-import {
-	contextInjectionKey,
-	type TestState
-} from '../context';
+	const hasType = computed( () => ( data.t ?? '' ).length > 0 );
 
-const ctx = inject<VueEagleEye<TestState>>( contextInjectionKey )!;
-
-const { data } = ctx.stream({
-	c: 'color',
-	t: 'type'
-} as const );
-
-onUpdated(() => console.log( 'ProductDescription component rendered.....' ));
-
+	onUpdated(() => console.log( 'ProductDescription component rendered.....' ));
 </script>
 
 <template>
 	<div :style="{ fontSize: '24px' }">
-		<strong>Description:</strong> {{ data.c }} {{ data.t }}
+		<strong>Description:</strong>
+		{{ ' ' }}
+		<span v-if="hasType" :style="{ display: 'inline-block' }">
+			<CapitalizedDisplay :text="data.c" />
+			{{ ' ' }}
+			<CapitalizedDisplay :text="data.t" />
+		</span>
+		<span v-else>n.a.</span>
 	</div>
 </template>

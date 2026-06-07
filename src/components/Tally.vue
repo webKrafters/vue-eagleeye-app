@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	import isEmpty from 'lodash.isempty';
-	import { inject, onUpdated } from 'vue';
-	import { VueEagleEye } from '../../lib/vue-eagleeye';
+	import { computed, inject, onUpdated } from 'vue';
+	import { EagleEyeContext } from '@webkrafters/vue-eagleeye';
 	import {
 		contextInjectionKey,
 		type TestState
@@ -10,13 +10,17 @@
 	import CustomerPhoneDisplay from './CustomerPhoneDisplay.vue';
 	import Reset from './Reset.vue';
 	
-	const ctx = inject<VueEagleEye<TestState>>( contextInjectionKey )!;
+	const ctx = inject<EagleEyeContext<TestState>>( contextInjectionKey )!;
 	const { data } = ctx.stream({
 		color: 'color',
 		name: 'customer.name',
 		price: 'price',
 		type: 'type'
-	} as const );
+	});
+
+	const hasColor = computed(() => ( data.color ?? '' ).length );
+	const hasName = computed(() => !isEmpty( data.name.first ) || !isEmpty( data.name.last ))
+	const hasType = computed(() => ( data.type ?? '' ).length );
 
 	onUpdated(() => console.log( 'TallyDisplay component rendered.....' ));
 </script>
@@ -25,26 +29,28 @@
 	<div :style="{ margin: '20px 0 10px' }">
 		<div :style="{ float: 'left', 'font-size': '1.75rem' }">
 			{{ 'Customer: ' }}
-			<span v-if="isEmpty( data.name.first ) && isEmpty( data.name.last )">
-				n.a.
-			</span>
-			<div :style="{ display: 'inline-block' }" v-else>
+			<div v-if="hasName" :style="{ display: 'inline-block' }">
 				<CapitalizedDisplay :text="data.name.first" />
 				{{ ' ' }}
 				<CapitalizedDisplay :text="data.name.last" />
 			</div>
+			<span v-else>n.a.</span>
 		</div>
 		<div :style="{ clear: 'both', 'padding-left': '3px' }">
 			<CustomerPhoneDisplay />
 		</div>
 		<table>
 			<tbody>
-				<tr><td><label>Type:</label></td><td>
-					<CapitalizedDisplay :text="data.type" />
-				</td></tr>
-				<tr><td><label>Color:</label></td><td>
-					<CapitalizedDisplay :text="data.color" />
-				</td></tr>
+				<tr>
+					<td><label>Type:</label></td>
+					<td v-if="hasType"><CapitalizedDisplay :text="data.type" /></td>
+					<td v-else>n.a.</td>
+				</tr>
+				<tr>
+					<td><label>Color:</label></td>
+					<td v-if="hasColor"><CapitalizedDisplay :text="data.color" /></td>
+					<td v-else>n.a.</td>
+				</tr>
 				<tr><td><label>Price:</label></td><td>{{ data.price.toFixed( 2 ) }}</td></tr>
 			</tbody>
 		</table>

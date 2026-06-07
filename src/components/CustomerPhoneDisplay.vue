@@ -2,14 +2,14 @@
 
 import { computed, inject, onUpdated } from 'vue';
 
-import { VueEagleEye } from '../../lib/vue-eagleeye';
+import type { EagleEyeContext } from '@webkrafters/eagleeye';
 
 import {
 	contextInjectionKey,
 	type TestState
 } from '../context';
 
-const ctx = inject<VueEagleEye<TestState>>( contextInjectionKey )!;
+const ctx = inject<EagleEyeContext<TestState>>( contextInjectionKey )!;
 
 const { data } = ctx.stream({ phone: 'customer.phone' } as const );
 

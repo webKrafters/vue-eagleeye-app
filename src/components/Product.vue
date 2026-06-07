@@ -3,7 +3,7 @@
 
 import { inject, onUpdated } from 'vue';
 
-import { VueEagleEye } from '../../lib/vue-eagleeye';
+import { EagleEyeContext } from '@webkrafters/vue-eagleeye';
 
 import {
 	contextInjectionKey,
@@ -15,7 +15,7 @@ import Tally from './Tally.vue';
 import ProductDescription from './ProductDescription.vue';
 import PriceSticker from './PriceSticker.vue';
 
-const ctx = inject<VueEagleEye<TestState>>( contextInjectionKey )!;
+const ctx = inject<EagleEyeContext<TestState>>( contextInjectionKey )!;
 
 const { data, setState } = ctx.stream({ price: 'price' } as const );
 
