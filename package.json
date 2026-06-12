@@ -22,7 +22,7 @@
     "@webkrafters/get-property": "^2.0.0",
     "@webkrafters/path-dotize": "0.0.2",
     "@webkrafters/timed-map": "^2.0.0",
-    "@webkrafters/vue-eagleeye": "^1.0.0-beta.4",
+    "@webkrafters/vue-eagleeye": "^1.0.1",
     "lodash.clonedeep": "^4.5.0",
     "lodash.clonedeepwith": "^4.5.0",
     "lodash.isboolean": "^3.0.3",
